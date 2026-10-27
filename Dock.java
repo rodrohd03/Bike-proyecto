@@ -130,8 +130,7 @@ public class Dock
      */
     public void collectPayment(ElectricBike bike){
         int kwh= 0;
-        //actualizar gets cuando se implementen
-        //kwh = bike.getBatteryCapacity() * (100 - bike.getBatteryLevel());
+        kwh = bike.getBatteryCapacity() - bike.getBatteryLevel();
         amountCollected += chargingFee * kwh ;
     }
     

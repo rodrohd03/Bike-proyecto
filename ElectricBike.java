@@ -72,6 +72,24 @@ public class ElectricBike
     {
         return targetLocation;    
     }
+    
+    /**
+     * Get the batteryCapacity.
+     * @return the amount of kwh the bike can hold.
+     */
+    public int getBatteryCapacity()
+    {
+        return batteryCapacity;    
+    }
+    
+    /**
+     * Get the batteryLevel.
+     * @return the battery percentage.
+     */
+    public int getBatteryLevel()
+    {
+        return batteryLevel;    
+    }
 
     /**
      * Get the temporary recharging location.
