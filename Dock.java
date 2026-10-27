@@ -116,16 +116,34 @@ public class Dock
     }
     
     
+     /**
+     * Adds a {@link ElectricBike} to bikesRecharged.
+     */
+    public void addBike (ElectricBike bike){
+        bikesRecharged.add(bike);
+        free = false;
+    }
+    
+    
+    /**
+     * Increases the amount collected and registers the bike as recharged.
+     */
+    public void collectPayment(ElectricBike bike){
+        int kwh= 0;
+        //actualizar gets cuando se implementen
+        //kwh = bike.getBatteryCapacity() * (100 - bike.getBatteryLevel());
+        amountCollected += chargingFee * kwh ;
+    }
+    
+    
     /**
      * Simulates the charging process for an {@link ElectricBike}.
      * Increases the amount collected and registers the bike as recharged.
      * //TODO complete the JavaDoc comments
      */
-    public float recharge(   ){
-        //TODO: Complete this code
-        return 0;
+    public void recharge(ElectricBike bike){
+        bike.recharge();
+        addBike(bike);
     }
-
-    //TODO: Complete this code
-
+    
 }
