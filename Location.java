@@ -40,8 +40,24 @@ public class Location
      */
     public Location nextLocation(Location destination)
     {
-        
-        return null;
+        Location next = new Location(0,0);
+        if (this.x < destination.x){
+            next.x = this.x +1;
+        }
+        else{
+            if(this.x > destination.x){
+                next.x = this.x -1;
+            }
+        }
+        if (this.y < destination.y){
+            next.y = this.y +1;
+        }
+        else{
+            if(this.y > destination.y){
+                next.y = this.y -1;
+            }
+        }
+        return next;
     }
 
     /**
@@ -52,8 +68,10 @@ public class Location
      */
     public int distance(Location destination)
     {
-         //TODO: Complete this code
-        return 0;
+        int d1, d2 = 0;
+        d1 = Math.abs(this.x -destination.x);
+        d2 = Math.abs(this.y -destination.y);
+        return Math.max(d1,d2);
     }
     
     /**
