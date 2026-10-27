@@ -143,6 +143,7 @@ public class Dock
     public void recharge(ElectricBike bike){
         bike.recharge();
         addBike(bike);
+        collectPayment(bike);
     }
     
 }
