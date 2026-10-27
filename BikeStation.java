@@ -1,0 +1,89 @@
+import java.util.List;
+import java.util.Collections;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+/**
+ * Models an Electric Vehicle Charging Station.
+ * A charging station contains multiple {@link Dock} units.
+ * @author DP classes 
+ * @version 2026.10.13
+ */
+public class BikeStation
+{
+    private String idStation;
+    private Location location;
+    private List<Dock> docks;
+    
+    /**
+     * Constructor for objects of class BikeStation.
+     * Initializes the fields with default or empty values.
+     */
+    public BikeStation(  )
+    {
+        idStation = "";
+        location = null;
+        docks = new ArrayList<>();
+    }
+
+    /**
+     * Constructor for objects of class BikeStation.
+     * @param id The unique identifier of the station (e.g., "CC01"). Must not be null.
+     * @param location The geographic location of the station. Must not be null.
+     */
+    public BikeStation(String id, Location location)
+    {
+        this.idStation = id;
+        this.location = location;
+        this.docks = new ArrayList<>();
+    }
+    
+    /**
+     * Retrieves the first free {@link Dock} found at the station.
+     * @return A free {@link Dock}, or possibly throws an exception if none are found (depending on stream implementation details).
+     * **Note: The implementation assumes at least one free dock exists if called.**
+     */
+    public Dock getFreeDock()
+    {
+       //TODO: Complete this code   
+        return null;        
+    }
+
+    /**
+     * @return The unique identifier of the charging station.
+     */
+    public String getId()
+    {  
+        return idStation;
+    }
+    
+    
+    /**
+     * Adds a new {@link Dock} to the station.
+     * @param dock The new Dock unit.
+     */
+    public void addDock(Dock dock)
+    {
+       //TODO: Complete this code
+    }
+    
+    /**
+     * Set the current location of the charging station.
+     * @param location Where it is. Must not be null.
+     * @throws NullPointerException If location is null.
+     */
+    public void setLocation(Location location)
+    {
+        if (location == null) {
+            throw new NullPointerException("Location cannot be null");
+        }
+       this.location = location;   
+    }
+    
+    //public String toString()
+        //to do
+
+
+    //TODO complete the rest of the code
+
+}
