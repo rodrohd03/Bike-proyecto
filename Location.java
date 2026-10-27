@@ -40,7 +40,7 @@ public class Location
      */
     public Location nextLocation(Location destination)
     {
-         //TODO: Complete this code
+        
         return null;
     }
 
