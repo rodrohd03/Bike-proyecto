@@ -40,25 +40,6 @@ public class BikeStation
     }
     
     /**
-     * Retrieves the first free {@link Dock} found at the station.
-     * @return A free {@link Dock}, or possibly throws an exception if none are found (depending on stream implementation details).
-     * **Note: The implementation assumes at least one free dock exists if called.**
-     */
-    public Dock getFreeDock()
-    {
-        Dock aux = null;
-        boolean found = false;
-        Iterator<Dock> it = docks.iterator();
-        while(it.hasNext() && found == false){
-            aux = it.next();
-            if(aux.isFree() == true)
-            found = true;
-        }
-        
-        return aux;        
-    }
-
-    /**
      * @return The unique identifier of the charging station.
      */
     public String getId()
@@ -87,6 +68,26 @@ public class BikeStation
     public void addDock(Dock dock)
     {
        docks.add(dock);
+       Collections.sort(docks, new ComparatorDocksChargeSpeed());
+    }
+    
+    /**
+     * Retrieves the first free {@link Dock} found at the station.
+     * @return A free {@link Dock}, or possibly throws an exception if none are found (depending on stream implementation details).
+     * **Note: The implementation assumes at least one free dock exists if called.**
+     */
+    public Dock getFreeDock()
+    {
+        Dock aux = null;
+        boolean found = false;
+        Iterator<Dock> it = docks.iterator();
+        while(it.hasNext() && found == false){
+            aux = it.next();
+            if(aux.isFree() == true)
+            found = true;
+        }
+        
+        return aux;        
     }
     
     /**
