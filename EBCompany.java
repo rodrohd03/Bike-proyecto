@@ -55,7 +55,7 @@ public class EBCompany
      */
     public BikeStation getBikeStation(String id)
     {
-        //TODO: Complete this code
+        
         for(BikeStation station : stations){
             if(station.getId().equals(id)){
                 return station; // si la encuentra, la devuelve
@@ -103,9 +103,8 @@ public class EBCompany
     }
     
     /**
-     * @return List<BikeStation> stations
+     * @return List<BikeStation> stations as an ArrayList
      */
-    
     public List<BikeStation> getStations (){
         return stations;
     }
