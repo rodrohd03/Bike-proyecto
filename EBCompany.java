@@ -102,4 +102,12 @@ public class EBCompany
         stations.clear();
     }
     
+    /**
+     * @return List<BikeStation> stations
+     */
+    
+    public List<BikeStation> getStations (){
+        return stations;
+    }
 }
+    

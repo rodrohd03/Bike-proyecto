@@ -101,6 +101,19 @@ public class ElectricBike
         return null;
     }
 
+    /**
+     * Checks if the current battery level is sufficient to cover a given distance.
+     * //TODO complete the JavaDoc comments
+     */
+    public boolean enoughBattery(   )
+    {
+        if(batteryLevel / 5 > location.distance(targetLocation)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     /**
      * Set the required final target location.
@@ -116,10 +129,35 @@ public class ElectricBike
      * Calculates the optimal route for the bike. 
      * If there isn't enough battery to reach the target, it attempts to find an intermediate 
      * {@link BikeStation} and sets it as the {@code rechargingLocation}.
+     * No permite ir a una station que no tenga docks libres, la complejidad sigue siendo de O(n) porque no recorre la lista 2 veces 
      */
-    public void calculateRoute()
+    public void calculateRoute(Location location2)
     {
-        //TODO: Complete this code
+        if(enoughBattery()){
+            setTargetLocation(location);
+        }
+        else{
+            List<BikeStation> stations = company.getStations();
+            int a = 0;
+            int minD = -1;
+            //No permite ir a un station sin docks libres, primer bucle encuentra la primera station de la lista con al menos un dock libre
+            while(a<stations.size() && minD == -1){
+                if(stations.get(a).getFreeDock() != null){
+                minD = location.distance(stations.get(a).getLocation()) + location2.distance(stations.get(a).getLocation());
+                targetLocation = stations.get(a).getLocation();
+                }
+                a++;
+            }
+            //No permite ir a un station sin docks libres, el segundo bucle parte de el final de la lista anterior. ( no se recorre la lista 2 veces)
+            for(int i = a; i<stations.size();i++){ 
+              if (minD < location.distance(stations.get(i).getLocation()) + location2.distance(stations.get(i).getLocation())){
+                  if (stations.get(a).getFreeDock() != null){
+                  minD = location.distance(stations.get(i).getLocation()) + location2.distance(stations.get(i).getLocation());
+                  targetLocation = stations.get(a).getLocation();
+                }
+              }
+            }
+        }
     }
 
     /**
@@ -132,15 +170,7 @@ public class ElectricBike
        return null;
     }
 
-    /**
-     * Checks if the current battery level is sufficient to cover a given distance.
-     * //TODO complete the JavaDoc comments
-     */
-    public boolean enoughBattery(   )
-    {
-        //TODO: Complete this code
-        return true;
-    }
+    
 
     /**
      * Determines the optimal intermediate {@link BikeStation} to visit for recharging
