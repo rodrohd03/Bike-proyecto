@@ -126,41 +126,6 @@ public class ElectricBike
     }
 
     /**
-     * Calculates the optimal route for the bike. 
-     * If there isn't enough battery to reach the target, it attempts to find an intermediate 
-     * {@link BikeStation} and sets it as the {@code rechargingLocation}.
-     * No permite ir a una station que no tenga docks libres, la complejidad sigue siendo de O(n) porque no recorre la lista 2 veces 
-     */
-    public void calculateRoute(Location location2)
-    {
-        if(enoughBattery()){
-            setTargetLocation(location);
-        }
-        else{
-            List<BikeStation> stations = company.getStations();
-            int a = 0;
-            int minD = -1;
-            //No permite ir a un station sin docks libres, primer bucle encuentra la primera station de la lista con al menos un dock libre
-            while(a<stations.size() && minD == -1){
-                if(stations.get(a).getFreeDock() != null){
-                minD = location.distance(stations.get(a).getLocation()) + location2.distance(stations.get(a).getLocation());
-                targetLocation = stations.get(a).getLocation();
-                }
-                a++;
-            }
-            //No permite ir a un station sin docks libres, el segundo bucle parte de el final de la lista anterior. ( no se recorre la lista 2 veces)
-            for(int i = a; i<stations.size();i++){ 
-              if (minD < location.distance(stations.get(i).getLocation()) + location2.distance(stations.get(i).getLocation())){
-                  if (stations.get(a).getFreeDock() != null){
-                  minD = location.distance(stations.get(i).getLocation()) + location2.distance(stations.get(i).getLocation());
-                  targetLocation = stations.get(a).getLocation();
-                }
-              }
-            }
-        }
-    }
-
-    /**
      * Gets a string representation of the planned route, including the recharging stop if one exists.
      * @return A string showing the route: {@code currentLocation -> [rechargingLocation ->] targetLocation}.
      */
@@ -177,19 +142,53 @@ public class ElectricBike
      * if the bike cannot reach the final target directly.
      * Sets {@code rechargingLocation} to the chosen station's location.
      */
-    public void calculateRechargingPosition()
+    public void calculateRechargingPosition(Location location2)
     {
-        //TODO: Complete this code
+        List<BikeStation> stations = company.getStations();
+        int a = 0;
+        int minD = -1;
+        //No permite ir a un station sin docks libres, primer bucle encuentra la primera station de la lista con al menos un dock libre
+        while(a<stations.size() && minD == -1){
+            if(stations.get(a).getFreeDock() != null){
+            minD = location.distance(stations.get(a).getLocation()) + location2.distance(stations.get(a).getLocation());
+            targetLocation = stations.get(a).getLocation();
+            }
+            a++;
+        }
+        //No permite ir a un station sin docks libres, el segundo bucle parte de el final de la lista anterior. ( no se recorre la lista 2 veces)
+        for(int i = a; i<stations.size();i++){ 
+          if (minD < location.distance(stations.get(i).getLocation()) + location2.distance(stations.get(i).getLocation())){
+              if (stations.get(a).getFreeDock() != null){
+              minD = location.distance(stations.get(i).getLocation()) + location2.distance(stations.get(i).getLocation());
+              targetLocation = stations.get(a).getLocation();
+            }
+          }
+        }
     }
 
+     /**
+     * Calculates the optimal route for the bike. 
+     * If there isn't enough battery to reach the target, it attempts to find an intermediate   
+     * {@link BikeStation} and sets it as the {@code rechargingLocation}.
+     * No permite ir a una station que no tenga docks libres, la complejidad sigue siendo de O(n) porque no recorre la lista 2 veces 
+     */
+    public void calculateRoute(Location location1)
+    {
+        if(enoughBattery()){
+            setTargetLocation(location);
+        }
+        else{
+            calculateRechargingPosition(location1);
+        }
+    }
+    
     /**
      * Get the Manhattan-like distance to the final target location from the current location.
      * @return The distance to the target location.
      */
     public int distanceToTheTargetLocation()
     {
-        //TODO: Complete this code 
-        return 0;
+        return location.distance(targetLocation);
     }
 
     /**
@@ -208,7 +207,7 @@ public class ElectricBike
      */
     public void incrementCharges()
     {
-        //TODO: Complete this code 
+        chargesCount ++;
     }
 
     /**
