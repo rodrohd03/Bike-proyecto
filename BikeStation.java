@@ -27,6 +27,7 @@ public class BikeStation
         docks = new ArrayList<>();
     }
 
+    
     /**
      * Constructor for objects of class BikeStation.
      * @param id The unique identifier of the station (e.g., "CC01"). Must not be null.
@@ -39,6 +40,7 @@ public class BikeStation
         this.docks = new ArrayList<>();
     }
     
+    
     /**
      * @return The unique identifier of the charging station.
      */
@@ -46,6 +48,8 @@ public class BikeStation
     {  
         return idStation;
     }
+    
+    
     /**
      * @return Location of the Charging station
      */
@@ -53,6 +57,8 @@ public class BikeStation
     {
         return this.location;   
     }
+    
+    
     /**
      * @return The collection of Docks as an ArrayList
      */
@@ -61,15 +67,22 @@ public class BikeStation
        return docks;
     }
     
+    
     /**
-     * Adds a new {@link Dock} to the station.
+     * Adds a new {@link Dock} to the station and keeps the collection ordered by:
+     * Charging speed descending
+     * Charging fee ascending
+     * Dock id ascending
      * @param dock The new Dock unit.
      */
     public void addDock(Dock dock)
     {
-       docks.add(dock);
-       Collections.sort(docks, new ComparatorDocksChargeSpeed());
+        if(dock != null && docks.contains(dock)){
+            docks.add(dock);
+            Collections.sort(docks);
+        }
     }
+    
     
     /**
      * Retrieves the first free {@link Dock} found at the station.
@@ -78,17 +91,20 @@ public class BikeStation
      */
     public Dock getFreeDock()
     {
-        Dock aux = null;
+        Dock freeDock = null;
         boolean found = false;
         Iterator<Dock> it = docks.iterator();
         while(it.hasNext() && found == false){
-            aux = it.next();
-            if(aux.isFree() == true)
+            Dock aux = it.next();
+            if(aux.isFree() == true){
             found = true;
+            freeDock = aux;
+            }
         }
-        
-        return aux;        
+            
+        return freeDock;        
     }
+    
     
     /**
      * Set the current location of the charging station.
@@ -103,10 +119,18 @@ public class BikeStation
        this.location = location;   
     }
     
-    //public String toString()
-        //to do
-
-
-    //TODO complete the rest of the code
-
+    
+    /**
+     * Returns a string representation of the bike station following the output template.
+     * @return A string containing the station ID, total recharged bikes, and location.
+     */
+    @Override
+    public String toString()
+    {
+        int totalRecharged = 0;
+        for(Dock dock: docks){
+            totalRecharged += dock.getBikesRecharged().size();
+        }
+        return "BikeStation: " + idStation + ", " + totalRecharged + ", " + location;
+    }
 }

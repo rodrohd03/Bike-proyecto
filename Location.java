@@ -82,8 +82,14 @@ public class Location
     @Override
     public boolean equals(Object other)
     {
-         //TODO: Complete this code
-        return true;
+         if(this == other){
+             return true;
+         }
+         if(other == null || getClass() != other.getClass()){
+             return false;
+         }
+         Location location = (Location) other;
+         return x == location.x && y == location.y;
     }
     
     /**
