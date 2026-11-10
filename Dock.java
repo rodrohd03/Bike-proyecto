@@ -7,7 +7,7 @@ import java.util.List;
  * @author DP classes 
  * @version 2026.10.13
  */
-public class Dock implements Comparable<Dock>
+public class Dock
 {
     private String idDock;
     private int chargingSpeed;
@@ -144,19 +144,5 @@ public class Dock implements Comparable<Dock>
         bike.recharge();
         addBike(bike);
         collectPayment(bike);
-    }
-    
-    
-    /**
-     * Compare dock with other using: chargingSpeed, chargingFee and idDock
-     * @Override
-     */
-    public int compareTo(Dock other)
-    {
-        if(other.chargingSpeed != this.chargingSpeed)
-            return Integer.compare(other.chargingSpeed, this.chargingSpeed);
-        if(Float.compare(this.chargingFee, other.chargingFee) != 0)
-            return Float.compare(this.chargingFee, other.chargingFee);
-        return this.idDock.compareTo(other.idDock);
     }
 }

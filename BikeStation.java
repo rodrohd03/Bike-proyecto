@@ -77,12 +77,9 @@ public class BikeStation
      */
     public void addDock(Dock dock)
     {
-        if(dock != null && docks.contains(dock)){
-            docks.add(dock);
-            Collections.sort(docks);
-        }
+       docks.add(dock);
+       Collections.sort(docks, new ComparatorDocksChargeSpeed());
     }
-    
     
     /**
      * Retrieves the first free {@link Dock} found at the station.
@@ -91,18 +88,16 @@ public class BikeStation
      */
     public Dock getFreeDock()
     {
-        Dock freeDock = null;
+        Dock aux = null;
         boolean found = false;
         Iterator<Dock> it = docks.iterator();
         while(it.hasNext() && found == false){
-            Dock aux = it.next();
-            if(aux.isFree() == true){
+            aux = it.next();
+            if(aux.isFree() == true)
             found = true;
-            freeDock = aux;
-            }
         }
-            
-        return freeDock;        
+        
+        return aux;        
     }
     
     
