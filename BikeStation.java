@@ -77,8 +77,10 @@ public class BikeStation
      */
     public void addDock(Dock dock)
     {
+       if(dock != null){
        docks.add(dock);
        Collections.sort(docks, new ComparatorDocksChargeSpeed());
+    }
     }
     
     /**

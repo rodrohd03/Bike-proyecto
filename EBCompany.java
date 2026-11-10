@@ -30,7 +30,7 @@ public class EBCompany
      */
     public void addElectricBike(ElectricBike bike)
     {       
-        if(bike != null && !subscribedBikes.contains(bike)){ // si bike existe y no está en la lista, la añade
+        if(bike != null){
             subscribedBikes.add(bike);
         }
     }
@@ -42,7 +42,7 @@ public class EBCompany
      */
     public void addBikeStation(BikeStation station)
     {       
-        if(station != null && !stations.contains(station)){ // si station existe y no está en la lista, la añade
+        if(station != null){ 
             stations.add(station);
         }
     }
