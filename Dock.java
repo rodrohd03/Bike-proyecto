@@ -141,7 +141,6 @@ public class Dock
      * //TODO complete the JavaDoc comments
      */
     public void recharge(ElectricBike bike){
-        bike.recharge();
         addBike(bike);
         collectPayment(bike);
     }

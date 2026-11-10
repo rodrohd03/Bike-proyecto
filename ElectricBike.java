@@ -13,6 +13,7 @@ public class ElectricBike
     private String idBike;
     private EBCompany company;
     private Location location;
+    private Location rechargingLocation;
     private Location targetLocation;
     private int idleCount;
     private int batteryCapacity;
@@ -41,6 +42,7 @@ public class ElectricBike
             this.batteryCapacity = batteryCapacity;
             batteryLevel = this.batteryCapacity;
             wsCharged = 0;
+            rechargingLocation = null;
             chargesCount = 0;
             chargestCost = 0;
             docks = new ArrayList<> ();
@@ -98,16 +100,16 @@ public class ElectricBike
     public Location getRechargingLocation()
     {
         //TODO: Complete this code
-        return null;
+        return rechargingLocation;
     }
 
     /**
      * Checks if the current battery level is sufficient to cover a given distance.
      * //TODO complete the JavaDoc comments
      */
-    public boolean enoughBattery(   )
+    public boolean enoughBattery(Location location1)
     {
-        if(batteryLevel / 5 > location.distance(targetLocation)){
+        if(batteryLevel / 5 > location.distance(location1)){
             return true;
         }
         else{
@@ -146,21 +148,15 @@ public class ElectricBike
     {
         List<BikeStation> stations = company.getStations();
         int a = 0;
-        int minD = -1;
-        //No permite ir a un station sin docks libres, primer bucle encuentra la primera station de la lista con al menos un dock libre
-        while(a<stations.size() && minD == -1){
-            if(stations.get(a).getFreeDock() != null){
-            minD = location.distance(stations.get(a).getLocation()) + location2.distance(stations.get(a).getLocation());
-            targetLocation = stations.get(a).getLocation();
-            }
-            a++;
-        }
-        //No permite ir a un station sin docks libres, el segundo bucle parte de el final de la lista anterior. ( no se recorre la lista 2 veces)
+        int minD = 21;//max tabla +1
+        //No permite ir a un station sin docks libres
         for(int i = a; i<stations.size();i++){ 
-          if (minD < location.distance(stations.get(i).getLocation()) + location2.distance(stations.get(i).getLocation())){
-              if (stations.get(a).getFreeDock() != null){
-              minD = location.distance(stations.get(i).getLocation()) + location2.distance(stations.get(i).getLocation());
-              targetLocation = stations.get(a).getLocation();
+          if(enoughBattery(stations.get(i).getLocation())){
+            if(minD < location.distance(stations.get(i).getLocation()) + location2.distance(stations.get(i).getLocation())){
+                if (stations.get(a).getFreeDock() != null){//esta funcion checkea que tenga docks libres
+                 minD = location.distance(stations.get(i).getLocation()) + location2.distance(stations.get(i).getLocation());
+                 rechargingLocation = stations.get(a).getLocation();
+                }
             }
           }
         }
@@ -174,8 +170,8 @@ public class ElectricBike
      */
     public void calculateRoute(Location location1)
     {
-        if(enoughBattery()){
-            setTargetLocation(location);
+        if(enoughBattery(location1)){
+            setTargetLocation(location1);
         }
         else{
             calculateRechargingPosition(location1);
@@ -190,16 +186,7 @@ public class ElectricBike
     {
         return location.distance(targetLocation);
     }
-
-    /**
-     * Simulates the recharging process when the bike arrives at a {@code rechargingLocation}.
-     * The battery is charged to full capacity, the cost is calculated, and the route is recalculated.
-     * //TODO complete the JavaDoc comments
-     */
-    public void recharge(   )
-    {
-        //TODO: Complete this code 
-    } 
+ 
 
     /**
      * Increments the count of recharges performed by this bike.
@@ -216,7 +203,32 @@ public class ElectricBike
      */
     public void incrementChargesCost(   )
     {
-        //TODO: Complete this code 
+        //chargestCost = dockR.getChargingFee()*(batteryCapacity - batteryLevel);
+    }
+    
+    /**
+     * Simulates the recharging process when the bike arrives at a {@code rechargingLocation}.
+     * The battery is charged to full capacity, the cost is calculated, and the route is recalculated.
+     * //TODO complete the JavaDoc comments
+     */
+    public void recharge(   )
+    {
+        List<BikeStation> stations = company.getStations();
+        boolean found = false;
+        Dock dockR = null;
+        for (int i = 0; i<stations.size()&&!found;i++){
+            if (location == stations.get(i).getLocation()){
+                found = true;   
+                dockR = stations.get(i).getFreeDock();
+                stations.get(i).getFreeDock().recharge(this);
+            }
+        }
+        docks.add(dockR);
+        incrementCharges();
+        wsCharged = wsCharged + batteryCapacity - batteryLevel;
+        chargestCost = dockR.getChargingFee()*(batteryCapacity - batteryLevel);
+        batteryLevel=batteryCapacity;
+        //recaluclar ruta 
     }   
 
     /**
