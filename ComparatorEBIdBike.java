@@ -18,5 +18,8 @@ public class ComparatorEBIdBike implements Comparator<ElectricBike>
      */
     public int compare(ElectricBike eb1, ElectricBike eb2){  
        return eb1.getIdBike().compareTo(eb2.getIdBike());
+       //devuelve un negativo si eb1 es anterior a eb2
+        //devuelve 0 si son iguales
+        //devuelve un positivo si eb1 es posterior a eb
     }
 }

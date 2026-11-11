@@ -87,12 +87,12 @@ public class EBikeDemo
     {
         bikes.clear();
         stations.clear();
-        // TODO: Complete the code here: reset the company info
+        this.company = new EBCompany("Compañia EBike"); 
         createElectricBikes();
         createStations(); 
         createDocks();
         configureRoutes();
-        // TODO: Complete the code here: show the initial info
+        showInitialInfo();
     }
 
     
@@ -162,7 +162,7 @@ public class EBikeDemo
      * the details of all {@link ElectricBike}s and {@link BikeStation}s.
      */
     private void showInitialInfo() {
-        //System.out.println("(" + company.getName() + ")");//hacer metodo
+        System.out.println("(" + company.getName() + ")");
         System.out.println("(-------------------)");
         System.out.println("( Electric Bikes )");
         System.out.println("(-------------------)");
@@ -175,7 +175,15 @@ public class EBikeDemo
         System.out.println("( Bike Stations )");
         System.out.println("(-------------------)");
        
-        // TODO: Complete the code here
+        Collections.sort(stations, new ComparatorBikeStationId());
+        for (BikeStation station : stations){
+            System.out.println(station);
+
+            //Los docks de cada estacion se muestran en el orden almacenado
+            for (Dock dock : station.getDocksList()) {
+                System.out.println(dock);
+            }
+        }
 
         System.out.println("(------------------)");
         System.out.println("( Simulation start )");
