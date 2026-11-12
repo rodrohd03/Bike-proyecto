@@ -237,11 +237,11 @@ public class ElectricBike
     }   
 
     /**
-     * Reduces the battery level by the cost of one movement step (5).
+     * Reduces the battery level by the cost of one movement step (defined in {@link EBCompany#MOVINGCOST}).
      * Ensures the battery level does not go below zero.
      */
     public void reduceBatteryLevel(){
-       batteryLevel = batteryLevel - 5 ;
+        batteryLevel = batteryLevel - EBCompany.movingCost ;
     }
     
     /**

@@ -9,6 +9,7 @@ import java.util.*;
  */
 public class EBCompany  
 {
+    public static final int movingCost = 5;
     private String name;
     private List<ElectricBike> subscribedBikes;
     private List<BikeStation> stations;
@@ -22,6 +23,7 @@ public class EBCompany
         this.name = name;
         this.subscribedBikes = new ArrayList<>();
         this.stations = new ArrayList<>();
+
     }
 
     /**
