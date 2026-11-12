@@ -21,6 +21,7 @@ public class ElectricBike
     private int wsCharged;
     private int chargesCount;
     private float chargestCost;
+    boolean arrived;
     private List<Dock> docks;
     
     /**
@@ -46,6 +47,7 @@ public class ElectricBike
             chargesCount = 0;
             chargestCost = 0;
             docks = new ArrayList<> ();
+            arrived = false;
     }
 
     /**
@@ -99,7 +101,6 @@ public class ElectricBike
      */
     public Location getRechargingLocation()
     {
-        //TODO: Complete this code
         return rechargingLocation;
     }
 
@@ -133,8 +134,7 @@ public class ElectricBike
      */
     public String getStringRoute()
     {
-       //TODO: Complete this code
-       return null;
+       return "Localizacion acual: " + location + "Localizacion de recarga: " +rechargingLocation + "Localizacion destino: " + targetLocation;
     }
 
     
@@ -160,6 +160,9 @@ public class ElectricBike
             }
           }
         }
+        if (minD == 21){
+            System.out.println ("No hay estaciones con docks libres");
+        }
     }
 
      /**
@@ -172,6 +175,7 @@ public class ElectricBike
     {
         if(enoughBattery(location1)){
             setTargetLocation(location1);
+            rechargingLocation = null;
         }
         else{
             calculateRechargingPosition(location1);
@@ -201,9 +205,9 @@ public class ElectricBike
      * Adds a cost amount to the total charges cost.
      * //TODO complete the JavaDoc comments
      */
-    public void incrementChargesCost(   )
+    public void incrementChargesCost(Dock dock)
     {
-        //chargestCost = dockR.getChargingFee()*(batteryCapacity - batteryLevel);
+        chargestCost = dock.getChargingFee()*(batteryCapacity - batteryLevel);
     }
     
     /**
@@ -211,7 +215,7 @@ public class ElectricBike
      * The battery is charged to full capacity, the cost is calculated, and the route is recalculated.
      * //TODO complete the JavaDoc comments
      */
-    public void recharge(   )
+    public void recharge()
     {
         List<BikeStation> stations = company.getStations();
         boolean found = false;
@@ -226,28 +230,50 @@ public class ElectricBike
         docks.add(dockR);
         incrementCharges();
         wsCharged = wsCharged + batteryCapacity - batteryLevel;
-        chargestCost = dockR.getChargingFee()*(batteryCapacity - batteryLevel);
+        incrementChargesCost(dockR);
         batteryLevel=batteryCapacity;
-        //recaluclar ruta 
+        calculateRoute(targetLocation);
+        
     }   
 
+    /**
+     * Reduces the battery level by the cost of one movement step (5).
+     * Ensures the battery level does not go below zero.
+     */
+    public void reduceBatteryLevel(){
+       batteryLevel = batteryLevel - 5 ;
+    }
+    
     /**
      * Carries out a single step of the bike's actions.
      * Moves one step towards the target (recharging or final) or stays idle.
      * //TODO complete the JavaDoc comments
      */
-    public void act(   )
+    public void act()
     {
-       //TODO: Complete this code 
+        if(!arrived){
+            if(rechargingLocation == null){
+                location.nextLocation(targetLocation);
+                reduceBatteryLevel();
+                if(location == targetLocation){
+                    arrived = true;
+                }
+            }
+            else{
+                if(location != rechargingLocation){
+                    location.nextLocation(rechargingLocation);
+                    reduceBatteryLevel();
+                    if(location == rechargingLocation){
+                    recharge();
+                    }
+                }
+            }
+        }
+        else{
+            idleCount++; 
+        }
     }
 
-    /**
-     * Reduces the battery level by the cost of one movement step (defined in {@link EBCompany#MOVINGCOST}).
-     * Ensures the battery level does not go below zero.
-     */
-    public void reduceBatteryLevel(){
-       //TODO: Complete this code 
-    }
 
     /**
      * Returns a detailed string representation of the electric bike.
