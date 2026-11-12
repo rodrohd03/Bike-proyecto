@@ -166,8 +166,9 @@ public class EBikeDemo
         System.out.println("(-------------------)");
         System.out.println("( Electric Bikes )");
         System.out.println("(-------------------)");
-
-        for(ElectricBike eb : bikes){ // print every bike 
+        
+        Collections.sort(bikes, new ComparatorEBIdBike());
+        for(ElectricBike eb : bikes){
             System.out.println("(" + eb + ")");
         }
 
