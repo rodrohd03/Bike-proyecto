@@ -152,10 +152,7 @@ public class BikeStation
     @Override
     public String toString()
     {
-        int totalRecharged = 0;
-        for(Dock dock: docks){
-            totalRecharged += dock.getBikesRecharged().size();
-        }
-        return "BikeStation: " + idStation + ", " + totalRecharged + ", " + location;
+
+        return "(BikeStation: " + idStation + ", " + getTotalRecharges() + ", " + location + ")";
     }
 }

@@ -91,7 +91,7 @@ public class EBikeDemo
     {
         bikes.clear();
         stations.clear();
-        this.company = new EBCompany("Compañia EBike"); 
+        this.company = new EBCompany("Compañía EBBike Cáceres"); 
         createElectricBikes();
         createStations(); 
         createDocks();
@@ -170,7 +170,7 @@ public class EBikeDemo
      * the details of all {@link ElectricBike}s and {@link BikeStation}s.
      */
     private void showInitialInfo() {
-        System.out.println("(" + company.getName() + ")");
+        System.out.println("( " + company.getName() + " )");
         System.out.println("(-------------------)");
         System.out.println("( Electric Bikes )");
         System.out.println("(-------------------)");
@@ -204,7 +204,7 @@ public class EBikeDemo
      * Stations are sorted by the number of recharges using {@link ComparatorBikeStationNumerRecharged}.
      */
     private void showFinalInfo() {
- 
+        
         System.out.println("(-------------------)");
         System.out.println("( Final information )");        
         System.out.println("(-------------------)");
@@ -215,7 +215,7 @@ public class EBikeDemo
         
         Collections.sort(bikes, new ComparatorEBArrivingStep());
         for (ElectricBike bike : bikes){
-            System.out.println(bike.toString());
+            System.out.println("(" + bike.toString() + ")");
             for(Dock dock : bike.getDocks()){
                 System.out.println("(Dock: " + dock.getIdDock() + ")");
             }
@@ -231,10 +231,11 @@ public class EBikeDemo
             for (Dock dock : station.getDocksList()) {
                 System.out.println(dock.toString());
                 for (ElectricBike bike : dock.getBikesRecharged()) {
-                    System.out.println(bike.toString());
+                    System.out.println("(" + bike.toString() + ")");
             }
             }
         }
+    
     }
     
     

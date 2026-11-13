@@ -21,7 +21,9 @@ public class ElectricBike
     private int wsCharged;
     private int chargesCount;
     private float chargestCost;
+    private Dock currentDock;
     boolean arrived;
+    boolean canMove;
     private List<Dock> docks;
     int arrivingStep;
     /**
@@ -47,8 +49,10 @@ public class ElectricBike
             chargesCount = 0;
             chargestCost = 0;
             docks = new ArrayList<> ();
+            currentDock = null;
             arrived = false;
-            arrivingStep = -1;
+            canMove = false;
+            arrivingStep = 9999;
     }
 
     /**
@@ -124,7 +128,7 @@ public class ElectricBike
      */
     public boolean enoughBattery(Location location1)
     {
-        if(batteryLevel / 5 > location.distance(location1)){
+        if(batteryLevel / EBCompany.movingCost >= location.distance(location1)){
             return true;
         }
         else{
@@ -148,7 +152,7 @@ public class ElectricBike
      */
     public String getStringRoute()
     {
-       return "Localizacion acual: " + location + "Localizacion de recarga: " +rechargingLocation + "Localizacion destino: " + targetLocation;
+       return "Localizacion actual: " + location + " Localizacion de recarga: " +rechargingLocation + " Localizacion destino: " + targetLocation;
     }
 
     /**
@@ -159,21 +163,25 @@ public class ElectricBike
     public void calculateRechargingPosition(Location location2)
     {
         List<BikeStation> stations = company.getStations();
-        int a = 0;
-        int minD = 21;//max tabla +1
+        int minD = 999;//tamaño que nunca se accederá
+        canMove=true;
         //No permite ir a un station sin docks libres
-        for(int i = a; i<stations.size();i++){ 
+        for(int i = 0; i<stations.size();i++){ 
           if(enoughBattery(stations.get(i).getLocation())){
-            if(minD < location.distance(stations.get(i).getLocation()) + location2.distance(stations.get(i).getLocation())){
-                if (stations.get(a).getFreeDock() != null){//esta funcion checkea que tenga docks libres
-                 minD = location.distance(stations.get(i).getLocation()) + location2.distance(stations.get(i).getLocation());
-                 rechargingLocation = stations.get(a).getLocation();
+            if(!location.equals(stations.get(i).getLocation())){  
+                if(minD > location.distance(stations.get(i).getLocation()) + location2.distance(stations.get(i).getLocation())){
+                    if (stations.get(i).getFreeDock() != null){//esta funcion checkea que tenga docks libres
+                     minD = location.distance(stations.get(i).getLocation()) + location2.distance(stations.get(i).getLocation());
+                     rechargingLocation = stations.get(i).getLocation();
+                    }
                 }
             }
           }
         }
-        if (minD == 21){
-            System.out.println ("No hay estaciones con docks libres");
+        if (minD == 999){
+            //System.out.println ("No hay estaciones con docks libres");
+            rechargingLocation = null;
+            canMove = false;
         }
     }
 
@@ -186,6 +194,7 @@ public class ElectricBike
     public void calculateRoute(Location location1)
     {
         if(enoughBattery(location1)){
+            canMove = true;
             setTargetLocation(location1);
             rechargingLocation = null;
         }
@@ -219,7 +228,7 @@ public class ElectricBike
      */
     public void incrementChargesCost(Dock dock)
     {
-        chargestCost = dock.getChargingFee()*(batteryCapacity - batteryLevel);
+        chargestCost += dock.getChargingFee()*(batteryCapacity - batteryLevel);
     }
     
     /**
@@ -236,7 +245,8 @@ public class ElectricBike
             if (location.equals(stations.get(i).getLocation())){
                 found = true;   
                 dockR = stations.get(i).getFreeDock();
-                stations.get(i).getFreeDock().recharge(this);
+                dockR.recharge(this);
+                currentDock = dockR;
             }
         }
         //Variables necesarias para mostrar el mensaje del paso
@@ -261,7 +271,10 @@ public class ElectricBike
      * Ensures the battery level does not go below zero.
      */
     public void reduceBatteryLevel(){
-        batteryLevel = batteryLevel - EBCompany.movingCost ;
+        batteryLevel = batteryLevel - EBCompany.movingCost;
+        if (batteryLevel < 0) {
+        batteryLevel = 0;
+        }
     }
     
     /**
@@ -271,9 +284,13 @@ public class ElectricBike
      */
     public void act(int step)
     {
-        if(!arrived){
+        if(currentDock != null){
+            currentDock.setFree();
+            currentDock = null;
+        }
+        if(!arrived && canMove){
             if(rechargingLocation == null){
-                location.nextLocation(targetLocation);
+                location = location.nextLocation(targetLocation);
                 reduceBatteryLevel();
                 if(location.equals(targetLocation)){
                     arrived = true;
@@ -285,11 +302,12 @@ public class ElectricBike
             }
             else{
                 if(!location.equals(rechargingLocation)){
-                    location.nextLocation(rechargingLocation);
+                    location = location.nextLocation(rechargingLocation);
                     reduceBatteryLevel();
-                    if(location.equals(rechargingLocation)){
+                }
+                if(location.equals(rechargingLocation)){
+                    rechargingLocation = null;
                     recharge(step);
-                    }
                 }
             }
         }
@@ -305,9 +323,14 @@ public class ElectricBike
      */
     @Override
     public String toString(){
+        if(rechargingLocation == null){
         return "ElectricBike: " + idBike + ", " + batteryCapacity + "wh, " + batteryLevel + "wh, " + chargesCount + ", " + chargestCost + "€, " + 
-        idleCount + ", " + location + ", " + targetLocation;
+        idleCount + ", " + location + ", " + targetLocation;    
+        }
+        else{
+        return "ElectricBike: " + idBike + ", " + batteryCapacity + "wh, " + batteryLevel + "wh, " + chargesCount + ", " + chargestCost + "€, " + 
+        idleCount + ", " + location + ", " +rechargingLocation + ", " + targetLocation;
+        }
     }
 
-   
 }

@@ -85,7 +85,7 @@ public class Dock
      * Sets the charging fee of the dock.
      * @param chargingFee The new charging fee.
      */
-    public void setChargingFee(int chargingFee) 
+    public void setChargingFee(float chargingFee) 
     {
         this.chargingFee = chargingFee;
     }
@@ -104,9 +104,9 @@ public class Dock
      * Sets the free status of the dock.
      * @param free The new free status.
      */
-    public void setFree(boolean free)
+    public void setFree()
     {
-        this.free = free;
+        free = true;
     }
     
     
@@ -141,7 +141,6 @@ public class Dock
      */
     public void addBike (ElectricBike bike){
         bikesRecharged.add(bike);
-        free = false;
     }
     
     
@@ -163,6 +162,7 @@ public class Dock
     public void recharge(ElectricBike bike){
         addBike(bike);
         collectPayment(bike);
+        free = false;
     }
     
     
@@ -172,8 +172,8 @@ public class Dock
      */
     public String toString()
     {
-        String formattedId = idDock.replace("_"," ");//Para que coincida con los resultados del anexo
-        return "Dock: " + formattedId + ", " + chargingSpeed + "wh, " + chargingFee + 
-        "€, " + bikesRecharged.size() + ", " + amountCollected + "€";
+        String formattedId = idDock.replace(" ","_");//Para que coincida con los resultados del anexo
+        return "(Dock: " + formattedId + ", " + chargingSpeed + "wh, " + chargingFee + 
+        "€, " + bikesRecharged.size() + ", " + amountCollected + "€" + ")";
     } 
 }
