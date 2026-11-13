@@ -21,7 +21,6 @@ public class ElectricBike
     private int wsCharged;
     private int chargesCount;
     private float chargestCost;
-    private Dock currentDock;
     boolean arrived;
     boolean canMove;
     private List<Dock> docks;
@@ -49,7 +48,6 @@ public class ElectricBike
             chargesCount = 0;
             chargestCost = 0;
             docks = new ArrayList<> ();
-            currentDock = null;
             arrived = false;
             canMove = false;
             arrivingStep = 9999;
@@ -246,7 +244,6 @@ public class ElectricBike
                 found = true;   
                 dockR = stations.get(i).getFreeDock();
                 dockR.recharge(this);
-                currentDock = dockR;
             }
         }
         //Variables necesarias para mostrar el mensaje del paso
@@ -264,6 +261,7 @@ public class ElectricBike
         dockR.getIdDock() + " with cost: " + cost + "€ ********)");
         
         calculateRoute(targetLocation);
+        dockR.setFree();
     }   
 
     /**
@@ -284,10 +282,6 @@ public class ElectricBike
      */
     public void act(int step)
     {
-        if(currentDock != null){
-            currentDock.setFree();
-            currentDock = null;
-        }
         if(!arrived && canMove){
             if(rechargingLocation == null){
                 location = location.nextLocation(targetLocation);
