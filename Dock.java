@@ -42,11 +42,33 @@ public class Dock
     
     
     /**
+     * Sets the identifier of the dock, if idDock is not null or empty
+     * @param idDock The new identifier of the dock.
+     */
+    public void setIdDock(String idDock) 
+    {
+        if (idDock != null && !idDock.isEmpty()){
+            this.idDock = idDock;
+        }
+    }
+    
+    
+    /**
      * @return The charging speed of the dock in wh.
      */
     public int getChargingSpeed()
     {
         return chargingSpeed;
+    }
+    
+    
+     /**
+     * Sets the charging speed of the dock.
+     * @param chargingSpeed The new charging speed.
+     */
+    public void setChargingSpeed(int chargingSpeed) 
+    {
+        this.chargingSpeed = chargingSpeed;
     }
     
     
@@ -56,6 +78,16 @@ public class Dock
     public float getChargingFee()
     {
         return chargingFee;
+    }
+    
+    
+    /**
+     * Sets the charging fee of the dock.
+     * @param chargingFee The new charging fee.
+     */
+    public void setChargingFee(int chargingFee) 
+    {
+        this.chargingFee = chargingFee;
     }
     
     
@@ -83,7 +115,7 @@ public class Dock
      */
     public List<ElectricBike> getBikesRecharged()
     {
-        return bikesRecharged;
+        return new ArrayList<> (bikesRecharged);
     }
 
     
@@ -138,7 +170,7 @@ public class Dock
     /**
      * Simulates the charging process for an {@link ElectricBike}.
      * Increases the amount collected and registers the bike as recharged.
-     * //TODO complete the JavaDoc comments
+     * @param bike The electric bike to be recharged
      */
     public void recharge(ElectricBike bike){
         addBike(bike);

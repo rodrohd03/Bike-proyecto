@@ -46,7 +46,19 @@ public class BikeStation
      */
     public String getId()
     {  
-        return idStation;
+        return this.idStation;
+    }
+    
+    
+    /**
+     * Sets the id of the station, if idStation is not null or empty
+     * @param idStation The new id of the station.
+     */
+    public void setIdStation(String idStation)
+    {
+        if (idStation != null && !idStation.isEmpty()) {
+            this.idStation = idStation;
+        }   
     }
     
     
@@ -60,11 +72,11 @@ public class BikeStation
     
     
     /**
-     * @return The collection of Docks as an ArrayList
+     * @return The collection of Docks as an ArrayList with a copy
      */
     public List<Dock> getDocksList()
     {
-       return docks;
+       return new ArrayList<> (docks);
     }
     
     

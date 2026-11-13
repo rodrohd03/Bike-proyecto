@@ -26,6 +26,7 @@ public class EBCompany
 
     }
 
+    
     /**
      * Adds an {@link ElectricBike} to the company's fleet.
      * @param bike The electric bike to add.
@@ -57,15 +58,15 @@ public class EBCompany
      */
     public BikeStation getBikeStation(String id)
     {
-        
         for(BikeStation station : stations){
             if(station.getId().equals(id)){
-                return station; // si la encuentra, la devuelve
+                return station;
             }
         }
-        return null; // sino devuelve null
+        return null;
     }
 
+    
     /**
      * Retrieves a {@link BikeStation} by its {@link Location}.
      * @param location The {@link Location} of the station to find.
@@ -75,11 +76,12 @@ public class EBCompany
     {
         for(BikeStation station : stations){
             if(station.getLocation().equals(location)){
-                return station; // si la encuentra, la devuelve
+                return station;
             }
         }
-        return null; // sino devuelve null
+        return null;
     }
+    
     
     /**
      * @return the name of the company.
