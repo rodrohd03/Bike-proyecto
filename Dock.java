@@ -125,25 +125,13 @@ public class Dock
     public float getAmountCollected()
     {
         return amountCollected;
-    }
-    
-    
-    /**
-     * Returns a string representation of the dock, including its ID, speed, fee, and the number of EVs recharged.
-     * @return A string representation of the dock.
-     */
-    public String toString()
-    {
-        String formattedId = idDock.replace("_"," ");//Para que coincida con los resultados del anexo
-        return "Dock: " + formattedId + ", " + chargingSpeed + "wh, " + chargingFee + 
-        "€, " + bikesRecharged.size() + ", " + amountCollected + "€";
-    }    
+    }   
 
     
     /**
      * @return The total number of {@link ElectricBike}s that have been recharged by this dock.
      */
-    public int getNumerEVRecharged(){
+    public int getNumberEBRecharged(){
         return bikesRecharged.size();
     }
     
@@ -176,4 +164,16 @@ public class Dock
         addBike(bike);
         collectPayment(bike);
     }
+    
+    
+    /**
+     * Returns a string representation of the dock, including its ID, speed, fee, and the number of EVs recharged.
+     * @return A string representation of the dock.
+     */
+    public String toString()
+    {
+        String formattedId = idDock.replace("_"," ");//Para que coincida con los resultados del anexo
+        return "Dock: " + formattedId + ", " + chargingSpeed + "wh, " + chargingFee + 
+        "€, " + bikesRecharged.size() + ", " + amountCollected + "€";
+    } 
 }

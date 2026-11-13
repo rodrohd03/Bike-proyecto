@@ -79,6 +79,14 @@ public class BikeStation
        return new ArrayList<> (docks);
     }
     
+    /**
+     * Sorts the Docks list by ChargeSpeed, if not by charging fee, and if
+     * not by ID
+     */
+    public void sortDocks() 
+    {
+        Collections.sort(this.docks, new ComparatorDocksChargeSpeed());
+    }
     
     /**
      * Adds a new {@link Dock} to the station and keeps the collection ordered by:
@@ -126,6 +134,14 @@ public class BikeStation
             throw new NullPointerException("Location cannot be null");
         }
        this.location = location;   
+    }
+    
+    public int getTotalRecharges() {
+        int total = 0;
+        for (Dock dock : this.docks){
+            total = total + dock.getNumberEBRecharged();
+        }
+        return total;
     }
     
     

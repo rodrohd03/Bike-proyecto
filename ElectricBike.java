@@ -1,4 +1,4 @@
-    import java.util.List;
+import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -23,7 +23,7 @@ public class ElectricBike
     private float chargestCost;
     boolean arrived;
     private List<Dock> docks;
-    
+    int arrivingStep;
     /**
      * Constructor of class ElectricBike.
      * @param company The EB's operating company. Must not be null.
@@ -48,6 +48,7 @@ public class ElectricBike
             chargestCost = 0;
             docks = new ArrayList<> ();
             arrived = false;
+            arrivingStep = -1;
     }
 
     /**
@@ -103,7 +104,20 @@ public class ElectricBike
     {
         return rechargingLocation;
     }
-
+    /**
+     * Get the step number the bike arrived to its destiny.
+     * @return arrivingStep.
+     */
+    public int getArrivingStep(){
+        return arrivingStep;
+    }
+    /**
+     * Get List<Dock> of docks where the bike recharged.
+     * @return {@link docks}.
+     */
+    public List<Dock> getDocks(){
+        return docks;
+    }
     /**
      * Checks if the current battery level is sufficient to cover a given distance.
      * //TODO complete the JavaDoc comments
@@ -136,8 +150,6 @@ public class ElectricBike
     {
        return "Localizacion acual: " + location + "Localizacion de recarga: " +rechargingLocation + "Localizacion destino: " + targetLocation;
     }
-
-    
 
     /**
      * Determines the optimal intermediate {@link BikeStation} to visit for recharging
@@ -215,25 +227,33 @@ public class ElectricBike
      * The battery is charged to full capacity, the cost is calculated, and the route is recalculated.
      * //TODO complete the JavaDoc comments
      */
-    public void recharge()
+    public void recharge(int step)
     {
         List<BikeStation> stations = company.getStations();
         boolean found = false;
         Dock dockR = null;
-        for (int i = 0; i<stations.size()&&!found;i++){
-            if (location == stations.get(i).getLocation()){
+        for (int i = 0; i<stations.size() && !found; i++){
+            if (location.equals(stations.get(i).getLocation())){
                 found = true;   
                 dockR = stations.get(i).getFreeDock();
                 stations.get(i).getFreeDock().recharge(this);
             }
         }
+        //Variables necesarias para mostrar el mensaje del paso
+        int charged= batteryCapacity-batteryLevel;
+        float cost= dockR.getChargingFee()*charged;
+        
         docks.add(dockR);
         incrementCharges();
         wsCharged = wsCharged + batteryCapacity - batteryLevel;
         incrementChargesCost(dockR);
         batteryLevel=batteryCapacity;
-        calculateRoute(targetLocation);
+        //Mensaje del paso
+        System.out.println("(step: " + step + " - ElectricBike: " + idBike + 
+        " recharges: " + charged + "wh at dock: " + 
+        dockR.getIdDock() + " with cost: " + cost + "€ ********)");
         
+        calculateRoute(targetLocation);
     }   
 
     /**
@@ -249,22 +269,26 @@ public class ElectricBike
      * Moves one step towards the target (recharging or final) or stays idle.
      * //TODO complete the JavaDoc comments
      */
-    public void act()
+    public void act(int step)
     {
         if(!arrived){
             if(rechargingLocation == null){
                 location.nextLocation(targetLocation);
                 reduceBatteryLevel();
-                if(location == targetLocation){
+                if(location.equals(targetLocation)){
                     arrived = true;
+                    arrivingStep= step;
+                    //Mensaje de llegada del paso
+                    System.out.println("(step: " + step + " - ElectricBike: " 
+                    + idBike + " at target destination ********)");
                 }
             }
             else{
-                if(location != rechargingLocation){
+                if(!location.equals(rechargingLocation)){
                     location.nextLocation(rechargingLocation);
                     reduceBatteryLevel();
-                    if(location == rechargingLocation){
-                    recharge();
+                    if(location.equals(rechargingLocation)){
+                    recharge(step);
                     }
                 }
             }

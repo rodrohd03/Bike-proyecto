@@ -61,12 +61,12 @@ public class EBikeDemo
      */
     public void run()
     {        
-        //Ejecutamos un número de pasos la simulación.
-        //En cada paso, cada persona de reparto realiza su acción
+        Collections.sort(bikes, new ComparatorEBIdBike());
+        //Ejecutamos pasos segun MAXSTEPS y cada ElectricBike realiza su paso
         for(int step = 0; step < MAXSTEPS; step++) {
             step(step);
         }
-        //TODO: Complete this code (show the final info)
+        showFinalInfo();
     }
 
     /**
@@ -75,7 +75,11 @@ public class EBikeDemo
      */
     public void step(int step)
     {
-        //TODO: Complete this code: for each bike, act
+        for(ElectricBike bike : bikes){
+            bike.act(step);
+            System.out.println("(step: " + step + " - " + bike.toString() +
+            ")");
+        }
     }
 
     /**
@@ -113,7 +117,7 @@ public class EBikeDemo
             bikes.add(eb);//add the bike to the list
             company.addElectricBike(eb);//add the bike to the company
         }
-        bikes.sort(new ComparatorEBIdBike());//order bikes by plate
+        Collections.sort(bikes, new ComparatorEBIdBike());//order bikes by plate
     }
     
 
@@ -125,10 +129,12 @@ public class EBikeDemo
         Location [] locations = {new Location(10,5), new Location(10,11), new Location(14,16), new Location(8,4)};
                                 
         for (int i=0;i<DEMO.getNumStationsToCreate();i++){
-            company.addBikeStation(new BikeStation("CC0" + i,locations[i]));
+            BikeStation estacion = new BikeStation("CC0" + i,locations[i]);
+            company.addBikeStation(estacion);
+            stations.add(estacion);
         }
         
-        // TODO: Complete the code here
+        Collections.sort(stations, new ComparatorBikeStationId());
     }
 
     /**
@@ -143,7 +149,7 @@ public class EBikeDemo
                 Dock d = new Dock(station.getId() + "_00" + i,((i+1)*20),((i+1)*0.20f));
                 station.addDock(new Dock(station.getId() + "_00" + i,((i+1)*20),((i+1)*0.20f)));
             }
-            // TODO: Complete the code here
+            station.sortDocks();
         }    
     }
     
@@ -153,10 +159,12 @@ public class EBikeDemo
       * This determines if an intermediate recharging stop is necessary.
       */
      private void configureRoutes() {
-        // TODO: Complete the code here
+        for (ElectricBike bike : bikes){
+            bike.calculateRoute(bike.getTargetLocation());
+        }
 
      }
-
+     
     /**
      * Displays the initial information for the simulation, including 
      * the details of all {@link ElectricBike}s and {@link BikeStation}s.
@@ -179,7 +187,6 @@ public class EBikeDemo
         Collections.sort(stations, new ComparatorBikeStationId());
         for (BikeStation station : stations){
             System.out.println(station);
-
             //Los docks de cada estacion se muestran en el orden almacenado
             for (Dock dock : station.getDocksList()) {
                 System.out.println(dock);
@@ -206,14 +213,30 @@ public class EBikeDemo
         System.out.println("( Electric Bikes )");
         System.out.println("(-------------------)");
         
-        // TODO: Complete the code here
+        Collections.sort(bikes, new ComparatorEBArrivingStep());
+        for (ElectricBike bike : bikes){
+            System.out.println(bike.toString());
+            for(Dock dock : bike.getDocks()){
+                System.out.println("(Dock: " + dock.getIdDock() + ")");
+            }
+        }
         
         System.out.println("(-------------------)");
         System.out.println("( Bike Stations )");
         System.out.println("(-------------------)");
         
-        // TODO: Complete the code here
+        Collections.sort(stations, new ComparatorBikeStationRecharges());
+        for (BikeStation station : stations) {
+            System.out.println(station.toString());
+            for (Dock dock : station.getDocksList()) {
+                System.out.println(dock.toString());
+                for (ElectricBike bike : dock.getBikesRecharged()) {
+                    System.out.println(bike.toString());
+            }
+            }
+        }
     }
+    
     
     
     /**
