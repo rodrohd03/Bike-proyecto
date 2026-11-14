@@ -56,7 +56,7 @@ public class BikeStation
      */
     public void setIdStation(String idStation)
     {
-        if (idStation != null && !idStation.isEmpty()) {
+        if (idStation != null) {
             this.idStation = idStation;
         }   
     }

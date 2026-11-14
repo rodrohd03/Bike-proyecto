@@ -106,6 +106,7 @@ public class ElectricBike
     {
         return rechargingLocation;
     }
+    
     /**
      * Get the step number the bike arrived to its destiny.
      * @return arrivingStep.
@@ -113,16 +114,19 @@ public class ElectricBike
     public int getArrivingStep(){
         return arrivingStep;
     }
+    
     /**
      * Get List<Dock> of docks where the bike recharged.
      * @return {@link docks}.
      */
     public List<Dock> getDocks(){
-        return docks;
+        return new ArrayList<> (docks);
     }
+    
     /**
      * Checks if the current battery level is sufficient to cover a given distance.
-     * //TODO complete the JavaDoc comments
+     * @param location The target location to reach
+     * @return true if the bike has enough battery, false otherwise
      */
     public boolean enoughBattery(Location location1)
     {
@@ -213,7 +217,6 @@ public class ElectricBike
 
     /**
      * Increments the count of recharges performed by this bike.
-     * //TODO complete the JavaDoc comments
      */
     public void incrementCharges()
     {
@@ -222,7 +225,7 @@ public class ElectricBike
 
     /**
      * Adds a cost amount to the total charges cost.
-     * //TODO complete the JavaDoc comments
+     * @param Dock The dock where the bike is being charged, to obtain the charge fee
      */
     public void incrementChargesCost(Dock dock)
     {
@@ -232,7 +235,7 @@ public class ElectricBike
     /**
      * Simulates the recharging process when the bike arrives at a {@code rechargingLocation}.
      * The battery is charged to full capacity, the cost is calculated, and the route is recalculated.
-     * //TODO complete the JavaDoc comments
+     * @param step The current step in wich the recharge take place
      */
     public void recharge(int step)
     {
@@ -277,8 +280,8 @@ public class ElectricBike
     
     /**
      * Carries out a single step of the bike's actions.
-     * Moves one step towards the target (recharging or final) or stays idle.
-     * //TODO complete the JavaDoc comments
+     * Moves one step towards the target (recharging or final) reducing its battery level or stays idle.
+     * @param step The current step of the simulation
      */
     public void act(int step)
     {

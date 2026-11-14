@@ -91,12 +91,22 @@ public class EBCompany
         return name;
     }
     
+    
     /**
      * @return The total number of managed {@link BikeStation}s.
      */
     public int getNumberOfStations(){
         return stations.size();
     }
+    
+    
+    /**
+     * @return The total number of managed {@link ElectricBike}s.
+     */
+    public int getNumberOfBikes(){
+        return subscribedBikes.size();
+    }
+    
     
     /**
      * Clears all managed bikes and stations, resetting the company to an empty state.
@@ -106,11 +116,12 @@ public class EBCompany
         stations.clear();
     }
     
+    
     /**
      * @return List<BikeStation> stations as an ArrayList
      */
     public List<BikeStation> getStations (){
-        return stations;
+        return new ArrayList<> (stations);
     }
 }
     

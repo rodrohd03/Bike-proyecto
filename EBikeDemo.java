@@ -142,7 +142,6 @@ public class EBikeDemo
      * and orders the Docks within each station.
      */
     private void createDocks() {  
-        // TODO: Complete the code here
         for (BikeStation station : stations){
             for (int i=0;i<DEMO.getNumDocksToCreate();i++){
                 // Creates Docks with varying speed and fee based on index 'i'.

@@ -18,9 +18,10 @@ public class Dock
 
     /**
      * Constructor for objects of class Dock.
-    * @param id The unique identifier of the dock.
+     * @param id The unique identifier of the dock.
      * @param speed The charging speed in wh.
-     * @param fee The charging fee in €/wh.    */
+     * @param fee The charging fee in €/wh.   
+    */
     public Dock(String id, int speed, float fee)
     {
         idDock = id;
