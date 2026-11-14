@@ -39,33 +39,30 @@ public class LocationTest
         // No teardown required for Location tests
     }
     
-    /**
-     * Test the {@code distance} method of the {@link Location} class.
-     * Checks distances from a central location to surrounding points.
-     */
+
     @Test
     public void testDistance()
     {
-        //TODO: Complete this code
+        Location location1 = new Location(1, 2);
+        Location location2 = new Location(42, 12);
+        assertEquals(41, location1.distance(location2));
     }
-    
-    /**
-     * Test the {@code nextLocation} method when the destination is adjacent 
-     * (one step away in any direction).
-     */
+
     @Test
     public void testAdjacentLocations()
     {
-        //TODO: Complete this code
+        Location location1 = new Location(0, 0);
+        Location location2 = new Location(1, 0);
+        assertEquals(location2, location1.nextLocation(location2));
     }
-    
-    /**
-     * Test the {@code nextLocation} method when the destination is not adjacent 
-     * (more than one step away).
-     */
+
     @Test
     public void testNonAdjacentLocations()
     {
-        //TODO: Complete this code
+        Location location1 = new Location(0, 0);
+        Location location2 = new Location(10, 10);
+        assertNotEquals(location2, location1.nextLocation(location2));
     }
 }
+
+

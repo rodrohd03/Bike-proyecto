@@ -1,18 +1,10 @@
-Project: EV-Charging-Station-Simulation
-Authors: Professors of the Software Development Course (Desarrollo de Programas)
+MIEMBROS DEL GRUPO: Rodrigo Gámez Solís, Alejandro Moreno Leza e Ignacio Plata Cerezo
 
-This project is an adaptation of the material for the Software Development (Desarrollo de Programas) 
-course at the University of Extremadura, based on the initial structure of the book:
+CLASE PARA REALIZAR LA SIMULACIÓN: EBikeDemo (función main()).
 
-   Objects First with Java - A Practical Introduction using BlueJ
-   Sixth edition
-   David J. Barnes and Michael Kölling
-   Pearson Education, 2016
+REQUISITOS EXTRAS REALIZADOS: 
+	Uso de la funcionalidad de Git proporcionada por BlueJ: https://github.com/rodrohd03/Bike-proyecto
+	Uso correcto de la funcionalidad ofrecida por las Colecciones y los Comparadores: ComparatorEBIdBike, ComparatorEBArrivingStep, ComparatorBikeStationRecharges y 	ComparatorDocksChargeSpeed
+	
+	Uso correcto de Iterator: BikeStation
 
-This project implements the simulation of a fleet of Electric Vehicles (EVs) operating on a city grid.
-EVs travel from an initial location to a target destination, planning intermediate stops 
-at Charging Stations if their battery level is insufficient.
-The simulation also models the management of Chargers within each station.
-
-How to start this project:
-    To run the simulation, create an EVDemo object and invoke its run() method, or execute the static main() method of the EVDemo class.

@@ -13,7 +13,7 @@ public class ElectricBike
     private String idBike;
     private EBCompany company;
     private Location location;
-    private Location rechargingLocation;
+    private Location rechargingLocation; // Localizacion en la que se recarga la bici
     private Location targetLocation;
     private int idleCount;
     private int batteryCapacity;
@@ -21,10 +21,10 @@ public class ElectricBike
     private int wsCharged;
     private int chargesCount;
     private float chargestCost;
-    boolean arrived;
-    boolean canMove;
+    boolean arrived;// Si ha llegado a su localizacion destino
+    boolean canMove;// Si se puede mover
     private List<Dock> docks;
-    int arrivingStep;
+    int arrivingStep; // Cuando llega la bici a su destino
     /**
      * Constructor of class ElectricBike.
      * @param company The EB's operating company. Must not be null.
@@ -36,6 +36,9 @@ public class ElectricBike
      */
     public ElectricBike(EBCompany company, Location location, Location targetLocation, String id, int batteryCapacity)
         {
+            if (location == null||targetLocation == null||company ==null) {
+            throw new NullPointerException("Location/targetLocation/EBCompany cannot be null");
+        }
             idBike = id;
             this.company = company;
             this.location = location;
@@ -48,9 +51,9 @@ public class ElectricBike
             chargesCount = 0;
             chargestCost = 0;
             docks = new ArrayList<> ();
-            arrived = false;
-            canMove = false;
-            arrivingStep = 9999;
+            arrived = false; 
+            canMove = false; 
+            arrivingStep = 9999; 
     }
 
     /**
@@ -60,6 +63,22 @@ public class ElectricBike
     {
         return idBike;    
     }
+    
+    /**
+     * @return If the bike is available to move.
+     */
+    public boolean getCanMove()
+    {
+        return canMove;    
+    }
+    
+    /**
+     * @return If the bike has arrived to its target location.
+     */
+    public boolean getArrived()
+    {
+        return arrived;    
+    }
 
     /**
      * Set the current location.
@@ -68,6 +87,9 @@ public class ElectricBike
      */
     public void setLocation(Location location)
     {
+        if (location == null) {
+            throw new NullPointerException("Location cannot be null");
+        }
         this.location = location;
     }
 
@@ -145,6 +167,9 @@ public class ElectricBike
      */
     public void setTargetLocation(Location location)
     {
+        if (location == null) {
+            throw new NullPointerException("Location cannot be null");
+        }
         targetLocation = location;
     }
 
@@ -233,6 +258,14 @@ public class ElectricBike
     }
     
     /**
+     * Increases the amount of WsCharged by the amount charged.
+     */
+    public void incrementWsCharged()
+    {
+        wsCharged = wsCharged + batteryCapacity - batteryLevel;
+    }
+    
+    /**
      * Simulates the recharging process when the bike arrives at a {@code rechargingLocation}.
      * The battery is charged to full capacity, the cost is calculated, and the route is recalculated.
      * @param step The current step in wich the recharge take place
@@ -253,9 +286,9 @@ public class ElectricBike
         int charged= batteryCapacity-batteryLevel;
         float cost= dockR.getChargingFee()*charged;
         
+        incrementWsCharged();
         docks.add(dockR);
         incrementCharges();
-        wsCharged = wsCharged + batteryCapacity - batteryLevel;
         incrementChargesCost(dockR);
         batteryLevel=batteryCapacity;
         //Mensaje del paso
