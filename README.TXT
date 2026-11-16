@@ -1,10 +1,18 @@
-MIEMBROS DEL GRUPO: Rodrigo Gámez Solís, Alejandro Moreno Leza e Ignacio Plata Cerezo
+1º MIEMBROS DEL GRUPO: 
+Rodrigo Gámez Solís
+Alejandro Moreno Leza
+Ignacio Plata Cerezo
 
-CLASE PARA REALIZAR LA SIMULACIÓN: EBikeDemo (función main()).
+2º CLASE PARA EJECUTAR LA SIMULACIÓN: EBikeDemo (función main()).
 
-REQUISITOS EXTRAS REALIZADOS: 
-	Uso de la funcionalidad de Git proporcionada por BlueJ: https://github.com/rodrohd03/Bike-proyecto
-	Uso correcto de la funcionalidad ofrecida por las Colecciones y los Comparadores: ComparatorEBIdBike, ComparatorEBArrivingStep, ComparatorBikeStationRecharges y 	ComparatorDocksChargeSpeed
+3º REQUISITOS EXTRAS REALIZADOS: 
+
+-Uso de la funcionalidad de Git proporcionada por BlueJ: 	
+https://github.com/rodrohd03/Bike-proyecto
+
+-Uso correcto de la funcionalidad ofrecida por las Colecciones y los Comparadores: ComparatorEBIdBike, ComparatorEBArrivingStep, ComparatorBikeStationRecharges y ComparatorDocksChargeSpeed
 	
-	Uso correcto de Iterator: BikeStation
+-Uso correcto de Iterator: BikeStation, ElectricBike
+
+-Pruebas mínimas realizadas
 

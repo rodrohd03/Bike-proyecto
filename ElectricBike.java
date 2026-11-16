@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Model the common elements of an Electric bike (EB) that operates 
@@ -275,10 +276,13 @@ public class ElectricBike
         List<BikeStation> stations = company.getStations();
         boolean found = false;
         Dock dockR = null;
-        for (int i = 0; i<stations.size() && !found; i++){
-            if (location.equals(stations.get(i).getLocation())){
+        BikeStation aux = null;
+        Iterator<BikeStation> it = stations.iterator();
+        while(it.hasNext() && found == false){
+            aux = it.next();
+            if (location.equals(aux.getLocation())){
                 found = true;   
-                dockR = stations.get(i).getFreeDock();
+                dockR = aux.getFreeDock();
                 dockR.recharge(this);
             }
         }
