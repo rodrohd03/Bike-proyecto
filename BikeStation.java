@@ -40,6 +40,31 @@ public class BikeStation
         this.docks = new ArrayList<>();
     }
     
+    @Override
+    public boolean equals(Object obj){
+    
+    if(this == obj) {
+    
+    return true; //Ambos referencian al mismo objeto
+    
+    }
+    if(!(obj instanceof BikeStation)) {
+    
+    return false; //Tienen diferentes tipos
+    
+    }
+    BikeStation other = (BikeStation) obj;
+    
+    return other.getId().equals(getId()); 
+    //Revisa la variable crítica de diferenciación, el ID
+    }
+    
+    @Override
+    public int hashCode(){
+    int result = 7;
+    result = 3 * result + getId().hashCode();
+    return result;
+    }
     
     /**
      * @return The unique identifier of the charging station.

@@ -56,7 +56,34 @@ public class ElectricBike
             canMove = false; 
             arrivingStep = 9999; 
     }
-
+    
+    @Override
+    public boolean equals(Object obj){
+    
+    if(this == obj) {
+    
+    return true; //Ambos referencian al mismo objeto
+    
+    }
+    if(!(obj instanceof ElectricBike)) {
+    
+    return false; //Tienen diferentes tipos
+    
+    }
+    ElectricBike other = (ElectricBike) obj;
+    
+    return other.getIdBike().equals(getIdBike()) && other.getBatteryCapacity()==getBatteryCapacity(); 
+    //Revisa las variables críticas de diferenciación, el ID y su BatteryCapacity
+    }
+    
+    @Override
+    public int hashCode(){
+    int result = 7;
+    result = 3 * result + getIdBike().hashCode();
+    result = getBatteryCapacity() * result + 5;
+    return result;
+    }
+    
     /**
      * @return The id of the electric bike.
      */

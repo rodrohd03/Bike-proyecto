@@ -31,7 +31,33 @@ public class Dock
         amountCollected = 0.0f;
         free = true;
     }
-
+    
+    @Override
+    public boolean equals(Object obj){
+    
+    if(this == obj) {
+    
+    return true; //Ambos referencian al mismo objeto
+    
+    }
+    if(!(obj instanceof Dock)) {
+    
+    return false; //Tienen diferentes tipos
+    
+    }
+    Dock other = (Dock) obj;
+    
+    return other.getIdDock().equals(this.idDock) && other.getChargingSpeed()==getChargingSpeed(); 
+    //Revisa las variables críticas de diferenciación, el ID y su ChargingSpeed
+    }
+    
+    @Override
+    public int hashCode(){
+    int result = 7;
+    result = 3 * result + getIdDock().hashCode();
+    result = getChargingSpeed() * result + 5;
+    return result;
+    }
     
     /**
      * @return The unique identifier of the dock.
@@ -40,7 +66,6 @@ public class Dock
     {
         return idDock;
     }
-    
     
     /**
      * Sets the identifier of the dock, if idDock is not null or empty
