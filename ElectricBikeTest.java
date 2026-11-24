@@ -13,6 +13,13 @@ import org.junit.jupiter.api.Test;
  */
 public class ElectricBikeTest
 {
+    private Location Inicio;
+    Location locAccesible;
+    Location estacion;
+    Location inaccesible;
+    EBCompany eBCompan1;
+    Dock dock1;
+    BikeStation bikeStat1;
     /**
      * Default constructor for test class ElectricBikeTest
      */
@@ -28,6 +35,15 @@ public class ElectricBikeTest
     @BeforeEach
     public void setUp()
     {
+        Inicio = new Location(0, 0);
+        locAccesible = new Location(1, 1);
+        estacion = new Location(2, 2);
+        inaccesible = new Location(5, 5);
+        eBCompan1 = new EBCompany("asf");
+        dock1 = new Dock("002", 5, 5);
+        bikeStat1 = new BikeStation("003", estacion);
+        eBCompan1.addBikeStation(bikeStat1);
+        bikeStat1.addDock(dock1);
     }
 
     /**
@@ -42,14 +58,12 @@ public class ElectricBikeTest
 
     @Test
     public void testCreation()
-    {
-        EBCompany eBCompan1 = new EBCompany("ebc");
-        Location location1 = new Location(2, 1);
-        Location location2 = new Location(321, 213);
-        ElectricBike electric1 = new ElectricBike(eBCompan1, location1, location2, "001", 65);
+    {   
+        setUp();
+        ElectricBike electric1 = new ElectricBike(eBCompan1, Inicio, inaccesible, "001", 65);
         assertEquals(65, electric1.getBatteryCapacity());
         assertEquals(9999, electric1.getArrivingStep());
-        assertEquals(location2, electric1.getTargetLocation());
+        assertEquals(inaccesible, electric1.getTargetLocation());
         assertEquals(false, electric1.getArrived());
         assertEquals(false, electric1.getCanMove());
         assertEquals("001", electric1.getIdBike());
@@ -59,27 +73,17 @@ public class ElectricBikeTest
     @Test
     public void testEnoughBattery()
     {
-        Location location1 = new Location(1, 1);
-        Location location2 = new Location(10, 10);
-        EBCompany eBCompan1 = new EBCompany("adsf");
-        ElectricBike electric1 = new ElectricBike(eBCompan1, location1, location2, "001", 15);
+        setUp();
+        ElectricBike electric1 = new ElectricBike(eBCompan1, Inicio, inaccesible, "001", 15);
         Location location3 = new Location(2, 2);
-        assertEquals(false, electric1.enoughBattery(location2));
+        assertEquals(false, electric1.enoughBattery(inaccesible));
         assertEquals(true, electric1.enoughBattery(location3));
     }
 
     @Test
     public void testCalculateRoute()
     {
-        Location Inicio = new Location(0, 0);
-        Location locAccesible = new Location(1, 1);
-        Location estacion = new Location(2, 2);
-        Location inaccesible = new Location(5, 5);
-        EBCompany eBCompan1 = new EBCompany("asf");
-        Dock dock1 = new Dock("002", 5, 5);
-        BikeStation bikeStat1 = new BikeStation("003", estacion);
-        eBCompan1.addBikeStation(bikeStat1);
-        bikeStat1.addDock(dock1);
+        setUp();
         ElectricBike electric1 = new ElectricBike(eBCompan1, Inicio, locAccesible, "010", 15);
         electric1.calculateRoute(locAccesible);
         assertEquals(true, electric1.getCanMove());
@@ -97,14 +101,8 @@ public class ElectricBikeTest
     @Test
     public void testRecharge()
     {
-        EBCompany eBCompan1 = new EBCompany("1");
-        Location recarga = new Location(0, 0);
-        BikeStation bikeStat1 = new BikeStation("2", recarga);
-        Location location1 = new Location(4, 4);
-        Dock dock1 = new Dock("3", 5, 5);
-        bikeStat1.addDock(dock1);
-        eBCompan1.addBikeStation(bikeStat1);
-        ElectricBike electric1 = new ElectricBike(eBCompan1, recarga, location1, "5", 35);
+        setUp();
+        ElectricBike electric1 = new ElectricBike(eBCompan1, estacion, inaccesible, "5", 35);
         electric1.reduceBatteryLevel();
         electric1.reduceBatteryLevel();
         electric1.reduceBatteryLevel();

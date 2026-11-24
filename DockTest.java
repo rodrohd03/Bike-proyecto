@@ -13,11 +13,17 @@ import org.junit.jupiter.api.Test;
  */
 public class DockTest
 {
+    private ElectricBike electric1;
+    private Location target;
+    private EBCompany eBCompan1;
+    private Location start;
+    private Dock dock1;
     /**
      * Default constructor for test class DockTest
      */
     public DockTest()
     {
+        
     }
 
     /**
@@ -26,8 +32,13 @@ public class DockTest
      * Called before every test case method.
      */
     @BeforeEach
-    public void setUp()
-    {
+    public void setUp(){
+        eBCompan1 = new EBCompany("Test1");
+        start = new Location(2, 1);
+        target = new Location(412, 32);
+        dock1 = new Dock("001", 5, 5);
+        electric1 = new ElectricBike(eBCompan1, start, target, "01", 35);
+    
     }
 
     /**
@@ -43,14 +54,10 @@ public class DockTest
     @Test
     public void testRecharge()
     {
-        EBCompany eBCompan1 = new EBCompany("Test1");
-        Location start = new Location(2, 1);
-        Location target = new Location(412, 32);
-        ElectricBike electric1 = new ElectricBike(eBCompan1, start, target, "01", 35);
+        setUp();
         electric1.reduceBatteryLevel();
         electric1.reduceBatteryLevel();
         electric1.reduceBatteryLevel();
-        Dock dock1 = new Dock("001", 5, 5);
         dock1.recharge(electric1);
         dock1.getChargingFee();
         assertEquals(1, dock1.getNumberEBRecharged());

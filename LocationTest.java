@@ -12,6 +12,7 @@ import org.junit.Test;
  */
 public class LocationTest
 {
+    //no setup porque solo se duplicaria una linea de codigo
     /**
      * Default constructor for test class LocationTest.
      */

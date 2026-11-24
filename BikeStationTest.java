@@ -12,7 +12,10 @@ import org.junit.jupiter.api.Test;
  * @version (a version number or a date)
  */
 public class BikeStationTest
-{
+{   
+    private Location location1;
+    private BikeStation bikeStat1;
+    private Dock dock1;
     /**
      * Default constructor for test class BikeStationTest
      */
@@ -26,8 +29,11 @@ public class BikeStationTest
      * Called before every test case method.
      */
     @BeforeEach
-    public void setUp()
-    {
+    public void setUp(){
+        location1 = new Location(1, 2);
+        bikeStat1 = new BikeStation("003", location1);
+        dock1 = new Dock("003", 5, 2);
+        bikeStat1.addDock(dock1);
     }
 
     /**
@@ -43,11 +49,7 @@ public class BikeStationTest
     @Test
     public void testAddDock()
     {
-        Location location1 = new Location(1, 2);
-        BikeStation bikeStat1 = new BikeStation("003", location1);
-        Dock dock1 = new Dock("003", 5, 2);
-        bikeStat1.addDock(dock1);
-        bikeStat1.getDocksList();
+        setUp();
         assertEquals(dock1, bikeStat1.getFreeDock());
     }
 }
