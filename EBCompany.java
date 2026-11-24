@@ -58,12 +58,13 @@ public class EBCompany
      */
     public BikeStation getBikeStation(String id)
     {
+        BikeStation aux = null;
         for(BikeStation station : stations){
             if(station.getId().equals(id)){
-                return station;
+                aux = station;
             }
         }
-        return null;
+        return aux;
     }
 
     
@@ -74,12 +75,13 @@ public class EBCompany
      */
     public BikeStation getBikeStation(Location location)
     {
+        BikeStation aux = null;
         for(BikeStation station : stations){
             if(station.getLocation().equals(location)){
-                return station;
+                aux = station;
             }
         }
-        return null;
+        return aux;
     }
     
     
